@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,10 +35,25 @@ class BlogPost
     private $conteudo;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Usuario", inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $autor;
+
+    /*
+     * @OneToMany(targetEntity="App\Entity\BlogPost", mappedBy="comentarios")
+     */
+    private $comentarios;
+
+    public function __construct()
+    {
+        $this->comentarios = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -91,4 +107,34 @@ class BlogPost
 
         return $this;
     }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getComentarios(): ArrayCollection
+    {
+        return $this->comentarios;
+    }
+
+    /**
+     * @param ArrayCollection $comentarios
+     */
+    public function setComentarios(ArrayCollection $comentarios): void
+    {
+        $this->comentarios = $comentarios;
+    }
+
+
 }

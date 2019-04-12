@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,43 +35,90 @@ class Comentario
      */
     private $autor;
 
-    public function getId(): ?int
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\BlogPost", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $blogPost;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getConteudo(): ?string
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
     {
-        return $this->$conteudo;
+        $this->id = $id;
     }
 
-    public function setConteudo(string $conteudo): self
+    /**
+     * @return mixed
+     */
+    public function getConteudo()
     {
-        $this->$conteudo = $conteudo;
-
-        return $this;
+        return $this->conteudo;
     }
 
-    public function getPublicadoEm(): ?\DateTimeInterface
+    /**
+     * @param mixed $conteudo
+     */
+    public function setConteudo($conteudo): void
+    {
+        $this->conteudo = $conteudo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPublicadoEm()
     {
         return $this->publicadoEm;
     }
 
-    public function setPublicadoEm(\DateTimeInterface $publicadoEm): self
+    /**
+     * @param mixed $publicadoEm
+     */
+    public function setPublicadoEm($publicadoEm): void
     {
         $this->publicadoEm = $publicadoEm;
-
-        return $this;
     }
 
-    public function getAutor(): ?Usuario
+    /**
+     * @return mixed
+     */
+    public function getAutor()
     {
         return $this->autor;
     }
 
-    public function setAutor(?Usuario $autor): self
+    /**
+     * @param mixed $autor
+     */
+    public function setAutor($autor): void
     {
         $this->autor = $autor;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBlogPost(): BlogPost
+    {
+        return $this->blogPost;
+    }
+
+    /**
+     * @param mixed $blogPost
+     */
+    public function setBlogPost(BlogPost $blogPost): self
+    {
+        $this->blogPost = $blogPost;
 
         return $this;
     }
